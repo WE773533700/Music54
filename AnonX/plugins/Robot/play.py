@@ -25,9 +25,7 @@ from AnonX.utils.inline.play import (livestream_markup,
 from AnonX.utils.inline.playlist import botplaylist_markup
 from AnonX.utils.logger import play_logs
 from AnonX.utils.stream.stream import stream
-
-
-        
+    
         
         
 # Command
@@ -39,6 +37,10 @@ PLAY_COMMAND = get_command("PLAY_COMMAND")
     & filters.group
     & ~filters.edited
     & ~BANNED_USERS
+)
+@app.on_message(filters.command(["شغل","تشغيل","شغلي"],"")
+& ~filters.edited
+& ~BANNED_USERS)
 )
 @PlayWrapper
 async def play_commnd(

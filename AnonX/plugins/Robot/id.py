@@ -3,52 +3,23 @@ from pyrogram.types import Message
 
 from AnonX import app
 
-def get_id(msg: Message):
-    if msg.media:
-        for message_type in (
-            "photo",
-            "animation",
-            "audio",
-            "document",
-            "video",
-            "video_note",
-            "voice",
-            # "contact",
-            # "dice",
-            # "poll",
-            # "location",
-            # "venue",
-            "sticker",
-        ):
-            obj = getattr(msg, message_type)
-            if obj:
-                setattr(obj, "message_type", message_type)
-                return obj
-
-
-@app.on_message(filters.command(["id", "stickerid", "stkid", "stckrid"]))
-async def showid(_, message: Message):
-    chat_type = message.chat.type
-
-    if chat_type == "private":
-        user_id = message.chat.id
-        await message.reply_text(f"<code>{user_id}</code>")
-
-    elif chat_type in ["group", "supergroup"]:
-        _id = ""
-        _id += "<b>ᴄʜᴀᴛ ɪᴅ</b>: " f"<code>{message.chat.id}</code>\n"
-        if message.reply_to_message:
-            _id += (
-                "<b>ʀᴇᴩʟɪᴇᴅ ᴜsᴇʀ ɪᴅ</b>: "
-                f"<code>{message.reply_to_message.from_user.id}</code>\n"
-            )
-            file_info = get_id(message.reply_to_message)
-        else:
-            _id += "<b>ᴜsᴇʀ ɪᴅ</b>: " f"<code>{message.from_user.id}</code>\n"
-            file_info = get_id(message)
-        if file_info:
-            _id += (
-                f"<b>{file_info.message_type}</b>: "
-                f"<code>{file_info.file_id}</code>\n"
-            )
-        await message.reply_text(_id)
+@app.on_message(
+    filters.command(["ايدي","ا","id"],""))
+async def vambir(client: Client, message: Message):
+    usr = await client.get_users(message.from_user.id)
+    name = usr.first_name
+    async for photo in client.iter_profile_photos(message.from_user.id, limit=1):
+                    await message.reply_text(       f"""◂ 𝙸𝙳 : »  `{message.from_user.id}`\n\n◂ 𝙸𝙳 𝙶𝚁𝙾𝚄𝙿 : » `{message.chat.id}`""",
+        reply_markup=InlineKeyboardMarkup(
+            [
+                [
+                    InlineKeyboardButton(
+                       "𝙼𝙸𝚂𝚂𝙸𝙽𝙶 𝚆𝙾𝚁𝙳𝚂", url=f"https://t.me/FH_KP"),
+                ],
+                [  
+                    InlineKeyboardButton(
+                        name, url=f"https://t.me/{message.from_user.username}")
+                ],
+            ]
+        ),
+    )
