@@ -14,7 +14,6 @@ from strings import get_command
 from AnonX import YouTube, app
 from AnonX.utils.decorators.language import language, languageCB
 from AnonX.utils.formatters import convert_bytes
-from AnonX.utils.inline.song import song_markup
 
 ydl_opts = {
     "format": "best",
